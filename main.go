@@ -1,21 +1,25 @@
 package main
 
 import (
-	"github.com/gin-gonic/contrib/static"
-	"github.com/gin-gonic/gin"
+	"fmt"
+	"net/http"
+	"os"
 )
 
 func main() {
-
-	r := gin.Default()
-	// Dont worry about this line just yet, it will make sense in the Dockerise bit!
-	r.Use(static.Serve("/", static.LocalFile("./web", true)))
-	api := r.Group("/api")
-	api.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
+	// setup port
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
+	// handle home page requests
+	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
+		fmt.Fprint(w, "Hi internet rando!")
 	})
-
-	r.Run()
+	// serve
+	err := http.ListenAndServe(":"+port, nil)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(2)
+	}
 }
