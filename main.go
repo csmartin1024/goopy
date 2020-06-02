@@ -10,11 +10,11 @@ func main() {
 	// setup port
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8000"
+		port = "8080"
 	}
 	// handle home page requests
 	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
-		fmt.Fprint(w, "Hi internet rando!")
+		fmt.Fprint(w, "You got gooped!")
 	})
 	// serve
 	err := http.ListenAndServe(":"+port, nil)
