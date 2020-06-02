@@ -14,7 +14,7 @@ func main() {
 	}
 	// handle home page requests
 	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
-		fmt.Fprint(w, "You just got gooped!")
+		fmt.Fprint(w, "You got gooped!")
 	})
 	// serve
 	err := http.ListenAndServe(":"+port, nil)
