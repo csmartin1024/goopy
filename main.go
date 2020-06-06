@@ -16,15 +16,15 @@ func main() {
 
 	r := mux.NewRouter()
 
-	r.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
-	})
-
 	r.HandleFunc("/api/goops", routes.ListGoops).Methods("GET")
 	r.HandleFunc("/api/goops/{id}", routes.GetGoop).Methods("GET")
 	r.HandleFunc("/api/goops", routes.CreateGoop).Methods("POST")
 	// r.HandleFunc("/api/goops/{id}", routes.UpdateGoop).Methods("PUT")
 	r.HandleFunc("/api/goops/{id}", routes.DeleteGoop).Methods("DELETE")
+
+	r.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "index.html")
+	})
 
 	port := os.Getenv("PORT")
 	if port == "" {
