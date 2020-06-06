@@ -67,12 +67,7 @@ func GetError(err error, w http.ResponseWriter) {
 }
 
 func getConnectionInfo() connectionInfo {
-	err := godotenv.Load()
-
-	for _, element := range os.Environ() {
-		variable := strings.Split(element, "=")
-		fmt.Println(variable[0], "=>", variable[1])
-	}
+	err := godotenv.Load("ENV")
 
 	if err != nil {
 		log.Fatalf("Error loading .env file %s", err)
