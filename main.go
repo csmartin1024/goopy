@@ -1,25 +1,32 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"os"
+
+	"github.com/csmartin1024/goopy/helper"
+	"github.com/csmartin1024/goopy/routes"
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	// setup port
+
+	helper.InitDatabase()
+
+	r := mux.NewRouter()
+
+	r.HandleFunc("/api/goops", routes.ListGoops).Methods("GET")
+	r.HandleFunc("/api/goops/{id}", routes.GetGoop).Methods("GET")
+	r.HandleFunc("/api/goops", routes.CreateGoop).Methods("POST")
+	// r.HandleFunc("/api/goops/{id}", routes.UpdateGoop).Methods("PUT")
+	r.HandleFunc("/api/goops/{id}", routes.DeleteGoop).Methods("DELETE")
+
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8000"
 	}
-	// handle home page requests
-	http.HandleFunc("/", func(w http.ResponseWriter, _ *http.Request) {
-		fmt.Fprint(w, "You sir, have been gooped.")
-	})
-	// serve
-	err := http.ListenAndServe(":"+port, nil)
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(2)
-	}
+
+	log.Fatal(http.ListenAndServe(":"+port, r))
+
 }
