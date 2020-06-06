@@ -28,7 +28,7 @@ func InitDatabase() {
 	connectionInfo := getConnectionInfo()
 
 	// Set client options
-	clientOptions := options.Client().ApplyURI(connectionInfo.databaseURI)
+	clientOptions := options.Client().ApplyURI(connectionInfo.databaseURI).SetRetryWrites(false)
 
 	// Connect to MongoDB
 	client, err := mongo.Connect(CTX, clientOptions)
