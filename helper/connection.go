@@ -68,8 +68,14 @@ func GetError(err error, w http.ResponseWriter) {
 
 func getConnectionInfo() connectionInfo {
 	err := godotenv.Load()
+
+	for _, element := range os.Environ() {
+		variable := strings.Split(element, "=")
+		fmt.Println(variable[0], "=>", variable[1])
+	}
+
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatalf("Error loading .env file %s", err)
 	}
 	dbURI := os.Getenv("MONGODB_URI")
 	stringArr := strings.Split(dbURI, ":")
