@@ -21,10 +21,7 @@ func main() {
 	r.HandleFunc("/api/goops", routes.CreateGoop).Methods("POST")
 	// r.HandleFunc("/api/goops/{id}", routes.UpdateGoop).Methods("PUT")
 	r.HandleFunc("/api/goops/{id}", routes.DeleteGoop).Methods("DELETE")
-
-	r.PathPrefix("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
-	})
+	r.PathPrefix("/").Handler(http.FileServer(http.Dir("./web/dist")))
 
 	port := os.Getenv("PORT")
 	if port == "" {
