@@ -1,5 +1,19 @@
 <template>
-  <div class="about">
-    <h1>This is an about page</h1>
-  </div>
+    <div class="about">
+        <Griddy />
+    </div>
 </template>
+
+<script>
+import Griddy from '@/components/Griddy.vue';
+
+export default {
+    name: 'About',
+    components: {
+        Griddy,
+    },
+};
+</script>
+
+<style scoped lang="scss">
+</style>

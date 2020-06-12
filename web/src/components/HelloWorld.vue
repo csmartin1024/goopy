@@ -3,32 +3,64 @@
         <div class="hello">
             <h1>{{ msg }}</h1>
         </div>
-        <div class="details" style="display:none;">
+        <div class="details" style="display:none">
             <h6>Color</h6>
             <input :value="color" @input="updateColor($event.target.value)" />
 
             <h6>Opacity</h6>
-            <input :value="opacity" @input="updateOpacity($event.target.value)" />
+            <input
+                :value="opacity"
+                @input="updateOpacity($event.target.value)"
+            />
 
             <h6>Speed</h6>
-            <input type="number" :value="speed" @input="updateSpeed($event.target.value)" />
+            <input
+                type="number"
+                :value="speed"
+                @input="updateSpeed($event.target.value)"
+            />
 
             <h6>Texture</h6>
-            <input :value="texture" @input="updateTexture($event.target.value)" />
+            <input
+                :value="texture"
+                @input="updateTexture($event.target.value)"
+            />
 
             <h6>Viscosity</h6>
-            <input :value="viscosity" @input="updateViscosity($event.target.value)" />
+            <input
+                :value="viscosity"
+                @input="updateViscosity($event.target.value)"
+            />
+
+            <!-- <button @click="loadGoops">Load Goops</button> -->
         </div>
+        <!-- <div>{{ JSON.stringify(goops) }}</div> -->
+        <Griddy :items="goops" />
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+import Griddy from '@/components/Griddy.vue';
+
 const Goop = namespace('goop');
 
-@Component
+// @Component
+@Component({
+    name: 'HelloWorld',
+    components: {
+        Griddy,
+    },
+})
 export default class HelloWorld extends Vue {
+    // components: {
+    //     Griddy;
+    // };
+    // $refs!: {
+    //     helloComponent: Griddy;
+    // };
+
     @Prop() private msg!: string;
     @Goop.State
     public color!: string;
@@ -45,6 +77,12 @@ export default class HelloWorld extends Vue {
     @Goop.State
     public viscosity!: string;
 
+    @Goop.State
+    public goops!: [];
+
+    @Goop.Action
+    public loadGoops!: () => [];
+
     @Goop.Action
     public updateColor!: (newColor: string) => string;
 
@@ -59,6 +97,10 @@ export default class HelloWorld extends Vue {
 
     @Goop.Action
     public updateViscosity!: (newViscosity: string) => string;
+
+    created() {
+        this.loadGoops();
+    }
 }
 </script>
 

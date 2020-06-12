@@ -1,4 +1,19 @@
-import { VuexModule, Module, MutationAction } from 'vuex-module-decorators';
+import {
+    VuexModule,
+    Module,
+    MutationAction,
+    Action,
+} from 'vuex-module-decorators';
+import Vue from 'vue';
+import Vuex from 'vuex';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+
+Vue.use(Vuex);
+Vue.use(VueAxios, axios);
+
+// Vue.axios.defaults.baseURL = 'http://localhost:8000/api';
+
 @Module({ namespaced: true })
 class Goop extends VuexModule {
     public color = '';
@@ -6,6 +21,7 @@ class Goop extends VuexModule {
     public speed = '';
     public texture = '';
     public viscosity = '';
+    public goops = [];
 
     @MutationAction({ mutate: ['color'] })
     async updateColor(newColor: string) {
@@ -31,6 +47,13 @@ class Goop extends VuexModule {
     @MutationAction({ mutate: ['viscosity'] })
     async updateViscosity(newViscosity: string) {
         return { viscosity: newViscosity };
+    }
+
+    @MutationAction({ mutate: ['goops'] })
+    async loadGoops() {
+        const result = await Vue.axios.get('/api/goops');
+        console.log(result);
+        return { goops: result.data };
     }
 }
 export default Goop;
